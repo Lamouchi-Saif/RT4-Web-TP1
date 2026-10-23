@@ -4,6 +4,7 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { CommonModule } from './common/common.module.js';
 import { TestModule } from './test/test.module.js';
+import { TodoModule } from './todo/todo.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -19,6 +20,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     }),
     CommonModule,
     TestModule,
+    TodoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
