@@ -1,5 +1,17 @@
-import { Body, Controller, Delete, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AddTodoDto } from './dto/add-todo.dto.js';
+import { SearchTodoDto } from './dto/search-todo.dto.js';
 import { UpdateTodoDto } from './dto/update-todo.dto.js';
 import { TodoService } from './todo.service.js';
 
@@ -27,4 +39,22 @@ export class TodoDbController {
     return this.todoService.softDeleteTodo(id);
   }
 
+  @Get('stats')
+  getStats() {
+    return this.todoService.getStats();
+  }
+
+  @Get(':id')
+  async getTodoById(@Param('id', ParseIntPipe) id: number) {
+    const todo = await this.todoService.getTodoById(id);
+    if (!todo) {
+      throw new NotFoundException(`Todo with id ${id} not found`);
+    }
+    return todo;
+  }
+
+  @Get()
+  getAllTodos(@Query() filters: SearchTodoDto) {
+    return this.todoService.getAllTodos(filters);
+  }
 }

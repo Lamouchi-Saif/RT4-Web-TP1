@@ -5,6 +5,7 @@ import { AddTodoDto } from './dto/add-todo.dto.js';
 import { UpdateTodoDto } from './dto/update-todo.dto.js';
 import { TodoEntity } from './entities/todo.entity.js';
 import { TodoStatusEnum } from './enums/todo-status.enum.js';
+import { SearchTodoDto } from './dto/search-todo.dto.js';
 
 @Injectable()
 export class TodoService {
@@ -59,4 +60,45 @@ export class TodoService {
     }
   }
 
+  async getStats(): Promise<Record<TodoStatusEnum, number>> {
+    const rows = await this.todoRepository
+      .createQueryBuilder('todo')
+      .select('todo.status', 'status')
+      .addSelect('COUNT(todo.id)', 'count')
+      .groupBy('todo.status')
+      .getRawMany<{ status: TodoStatusEnum; count: string }>();
+
+    const stats: Record<TodoStatusEnum, number> = {
+      [TodoStatusEnum.actif]: 0,
+      [TodoStatusEnum.waiting]: 0,
+      [TodoStatusEnum.done]: 0,
+    };
+
+    for (const row of rows) {
+      stats[row.status] = Number(row.count);
+    }
+
+    return stats;
+  }
+
+  getAllTodos(filters: SearchTodoDto = {}): Promise<TodoEntity[]> {
+    const query = this.todoRepository.createQueryBuilder('todo');
+
+    if (filters.search) {
+      query.andWhere(
+        '(todo.name LIKE :search OR todo.description LIKE :search)',
+        { search: `%${filters.search}%` },
+      );
+    }
+
+    if (filters.status) {
+      query.andWhere('todo.status = :status', { status: filters.status });
+    }
+
+    return query.getMany();
+  }
+
+  getTodoById(id: number): Promise<TodoEntity | null> {
+    return this.todoRepository.findOneBy({ id });
+  }
 }
