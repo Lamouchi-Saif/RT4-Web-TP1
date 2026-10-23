@@ -24,3 +24,11 @@ export const lengthMessage =
 
     return `Le champ '${args.property}' doit contenir ${condition} ${limit} caractères (reçu : ${received}).`;
   };
+
+  // Message used when a value is not one of the allowed enum values.
+// Object.values(enum) lists the allowed values, so the message stays
+// correct automatically if the enum changes.
+export const enumMessage =
+  (allowed: object) =>
+  (args: ValidationArguments): string =>
+    `Le champ "${args.property}" doit être l'une de ces valeurs : ${Object.values(allowed).join(', ')}.`;
