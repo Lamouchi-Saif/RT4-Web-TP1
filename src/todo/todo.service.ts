@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AddTodoDto } from './dto/add-todo.dto.js';
+import { UpdateTodoDto } from './dto/update-todo.dto.js';
 import { TodoEntity } from './entities/todo.entity.js';
 import { TodoStatusEnum } from './enums/todo-status.enum.js';
 
@@ -33,4 +34,29 @@ export class TodoService {
     });
     return this.todoRepository.save(todo);
   }
+
+  async updateTodo(id: number, dto: UpdateTodoDto): Promise<TodoEntity> {
+    const todo = await this.todoRepository.findOne({ where: { id } });
+    if (!todo) {
+      throw new NotFoundException('Todo not found');
+    }
+
+    Object.assign(todo, dto);
+    return this.todoRepository.save(todo);
+  }
+
+  async deleteTodo(id: number): Promise<void> {
+    const result = await this.todoRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException('Todo not found');
+    }
+  }
+
+  async softDeleteTodo(id: number): Promise<void> {
+    const result = await this.todoRepository.softDelete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException('Todo not found');
+    }
+  }
+
 }

@@ -5,14 +5,12 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Version,
 } from '@nestjs/common';
 import { AddTodoDto } from './dto/add-todo.dto.js';
 import { UpdateTodoDto } from './dto/update-todo.dto.js';
 import { TodoService } from './todo.service.js';
 
-@Controller('todo')
-@Version('1')
+@Controller({ path: 'todo', version: '1' })
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
