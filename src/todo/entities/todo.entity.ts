@@ -5,9 +5,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { TodoStatusEnum } from '../enums/todo-status.enum.js';
+import { TimestampEntity } from '../../common/entities/timestamp.entity.js';
+
 
 @Entity('todo')
-export class TodoEntity {
+// extends: inherits createdAt, updatedAt and deletedAt from TimestampEntity
+export class TodoEntity extends TimestampEntity{
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,9 +19,6 @@ export class TodoEntity {
 
   @Column()
   description: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
 
   @Column({
     type: 'enum',
