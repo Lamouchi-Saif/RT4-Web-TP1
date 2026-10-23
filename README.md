@@ -41,14 +41,14 @@ Ce TP a pour but de mettre en pratique les notions vues en cours :
 
 ## 🛠 Stack technique
 
-| Technologie | Rôle |
-|---|---|
-| [NestJS](https://nestjs.com/) | Framework backend (Node.js / TypeScript) |
-| [TypeORM](https://typeorm.io/) | ORM |
-| MySQL (`mysql2`) | Base de données |
-| `class-validator` / `class-transformer` | Validation et transformation des DTO |
-| `@nestjs/mapped-types` | Dérivation des DTO |
-| `@nestjs/config` | Gestion des variables de configuration |
+| Technologie                                  | Rôle                                                             |
+| -------------------------------------------- | ---------------------------------------------------------------- |
+| [NestJS](https://nestjs.com/)                | Framework backend (Node.js / TypeScript)                         |
+| [TypeORM](https://typeorm.io/)               | ORM                                                              |
+| MySQL (`mysql2`)                             | Base de données                                                  |
+| `class-validator` / `class-transformer`      | Validation et transformation des DTO                             |
+| `@nestjs/mapped-types`                       | Dérivation des DTO                                               |
+| `@nestjs/config`                             | Gestion des variables de configuration                           |
 | [`uuid`](https://www.npmjs.com/package/uuid) | Génération d'identifiants uniques (via un provider personnalisé) |
 
 ---
@@ -88,12 +88,12 @@ L'application est accessible sur : `http://localhost:3000`
 
 ### Scripts utiles
 
-| Commande | Description |
-|---|---|
-| `npm run start:dev` | Lance l'app en mode watch |
-| `npm run build` | Compile le projet |
+| Commande             | Description               |
+| -------------------- | ------------------------- |
+| `npm run start:dev`  | Lance l'app en mode watch |
+| `npm run build`      | Compile le projet         |
 | `npm run start:prod` | Lance la version compilée |
-| `npm run test` | Lance les tests unitaires |
+| `npm run test`       | Lance les tests unitaires |
 
 ### Dépendances à installer lors du développement
 
@@ -170,23 +170,23 @@ src/
 
 ### `TodoEntity`
 
-| Champ | Type | Description |
-|---|---|---|
-| `id` | `number` | Clé primaire auto-incrémentée |
-| `name` | `string` | Nom du todo (3 à 10 caractères) |
-| `description` | `string` | Description (≥ 10 caractères) |
-| `status` | `TodoStatusEnum` | Statut du todo |
-| `createdAt` | `Date` | Date de création (non modifiable après insertion) |
-| `updatedAt` | `Date` | Date de mise à jour (gérée par TypeORM) |
-| `deletedAt` | `Date` | Date de suppression soft (gérée par TypeORM) |
+| Champ         | Type             | Description                                       |
+| ------------- | ---------------- | ------------------------------------------------- |
+| `id`          | `number`         | Clé primaire auto-incrémentée                     |
+| `name`        | `string`         | Nom du todo (3 à 10 caractères)                   |
+| `description` | `string`         | Description (≥ 10 caractères)                     |
+| `status`      | `TodoStatusEnum` | Statut du todo                                    |
+| `createdAt`   | `Date`           | Date de création (non modifiable après insertion) |
+| `updatedAt`   | `Date`           | Date de mise à jour (gérée par TypeORM)           |
+| `deletedAt`   | `Date`           | Date de suppression soft (gérée par TypeORM)      |
 
 ### `TodoStatusEnum`
 
 ```ts
 export enum TodoStatusEnum {
-  'actif' = 'En cours',
-  'waiting' = 'En attente',
-  'done' = 'Finalisé',
+  actif = 'En cours',
+  waiting = 'En attente',
+  done = 'Finalisé',
 }
 ```
 
@@ -199,17 +199,17 @@ Statut par défaut à la création : **En attente**.
 > Les routes ci-dessous sont **prévisionnelles** et seront confirmées pendant l'implémentation.
 > L'ajout d'un todo existe en **deux versions** (v1 en mémoire, v2 en base de données) via l'**URI versioning**.
 
-| Méthode | Route | Description |
-|---|---|---|
-| `POST` | `/v1/todo` | Ajouter un todo (version initiale, en mémoire) |
-| `POST` | `/v2/todo` | Ajouter un todo en base de données |
-| `GET` | `/v2/todo` | Récupérer les todos (avec recherche et pagination) |
-| `GET` | `/v2/todo/:id` | Récupérer un todo par son id (404 si inexistant) |
-| `PATCH` | `/v2/todo/:id` | Mettre à jour un todo |
-| `DELETE` | `/v2/todo/:id` | Supprimer définitivement un todo |
-| `DELETE` | `/v2/todo/soft/:id` | Suppression soft d'un todo |
-| `PATCH` | `/v2/todo/restore/:id` | Restaurer un todo supprimé (soft) |
-| `GET` | `/v2/todo/stats` | Nombre de todos pour chacun des 3 statuts (une seule requête) |
+| Méthode  | Route                  | Description                                                   |
+| -------- | ---------------------- | ------------------------------------------------------------- |
+| `POST`   | `/v1/todo`             | Ajouter un todo (version initiale, en mémoire)                |
+| `POST`   | `/v2/todo`             | Ajouter un todo en base de données                            |
+| `GET`    | `/v2/todo`             | Récupérer les todos (avec recherche et pagination)            |
+| `GET`    | `/v2/todo/:id`         | Récupérer un todo par son id (404 si inexistant)              |
+| `PATCH`  | `/v2/todo/:id`         | Mettre à jour un todo                                         |
+| `DELETE` | `/v2/todo/:id`         | Supprimer définitivement un todo                              |
+| `DELETE` | `/v2/todo/soft/:id`    | Suppression soft d'un todo                                    |
+| `PATCH`  | `/v2/todo/restore/:id` | Restaurer un todo supprimé (soft)                             |
+| `GET`    | `/v2/todo/stats`       | Nombre de todos pour chacun des 3 statuts (une seule requête) |
 
 ### Recherche (query params, tous optionnels)
 
@@ -226,33 +226,39 @@ GET /v2/todo?search=nest&status=En cours
 ## 📋 Plan de travail (checklist TP1)
 
 ### 1. Mise en place
-- [ ] Créer un nouveau projet Nest (`nest new`)
-- [ ] Créer le `CommonModule` (module partagé, utilisé souvent)
-- [ ] Provider personnalisé pour la bibliothèque `uuid` (choisir le bon type : `useValue` / `useFactory`)
-- [ ] Créer un module + un service de test pour vérifier l'injection
+
+- [✅] Créer un nouveau projet Nest (`nest new`)
+- [✅] Créer le `CommonModule` (module partagé, utilisé souvent)
+- [✅] Provider personnalisé pour la bibliothèque `uuid` (choisir le bon type : `useValue` / `useFactory`)
+- [✅] Créer un module + un service de test pour vérifier l'injection
 
 ### 2. Base de données
-- [ ] Créer `TodoEntity` (id entier auto-incrémenté, name, description, createdAt, status)
-- [ ] Configurer TypeORM (idéalement avec `forRootAsync` + `ConfigService`)
+
+- [✅] Créer `TodoEntity` (id entier auto-incrémenté, name, description, createdAt, status)
+- [✅] Configurer TypeORM (idéalement avec `forRootAsync` + `ConfigService`)
 
 ### 3. Validation et DTO
-- [ ] DTO d'ajout : description obligatoire (≥ 10 car.), name obligatoire (3 à 10 car.)
-- [ ] Messages d'erreur personnalisés **centralisés** dans un seul fichier
-- [ ] DTO de mise à jour (aucun champ obligatoire, mêmes contraintes de taille, statut ∈ enum)
-- [ ] Simplifier les DTO avec les mapped types (`PartialType`…)
+
+- [✅] DTO d'ajout : description obligatoire (≥ 10 car.), name obligatoire (3 à 10 car.)
+- [✅] Messages d'erreur personnalisés **centralisés** dans un seul fichier
+- [✅] DTO de mise à jour (aucun champ obligatoire, mêmes contraintes de taille, statut ∈ enum)
+- [✅] Simplifier les DTO avec les mapped types (`PartialType`…)
 
 ### 4. Entités réutilisables
-- [ ] Ajouter `updatedAt` et `deletedAt` gérés automatiquement par TypeORM
-- [ ] Rendre `createdAt` non modifiable après création (`update: false`)
-- [ ] Factoriser `createdAt` / `updatedAt` / `deletedAt` dans une classe réutilisable
+
+- [✅] Ajouter `updatedAt` et `deletedAt` gérés automatiquement par TypeORM
+- [✅] Rendre `createdAt` non modifiable après création (`update: false`)
+- [✅] Factoriser `createdAt` / `updatedAt` / `deletedAt` dans une classe réutilisable
 
 ### 5. CRUD
+
 - [ ] `addTodo` en base de données (**garder les deux versions** du code)
 - [ ] `updateTodo` via l'id
 - [ ] `deleteTodo` via l'id
 - [ ] `softDeleteTodo` + méthode de restauration
 
 ### 6. Consultation
+
 - [ ] Endpoint de statistiques : nombre de todos pour chacun des 3 statuts en **une seule requête**
 - [ ] Endpoint de récupération de tous les todos
 - [ ] Endpoint de récupération par id (gérer le cas « todo inexistant »)
