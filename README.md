@@ -2,7 +2,7 @@
 
 API REST de gestion de **Todos** développée avec **NestJS**, **TypeORM** et **MySQL**, dans le cadre du TP1 du cours NestJS (RT4).
 
-> **Auteur :** _Prénom NOM_ – RT4 – Année universitaire 2026/2027
+> **Auteur :** Groupe 8 – RT4 – Année universitaire 2026/2027
 > **Enseignant :** Aymen Sellaouti
 
 ---
