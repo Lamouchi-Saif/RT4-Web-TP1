@@ -1,14 +1,18 @@
 import {
   Body,
   Controller,
+  Delete,
+  Get,
   Param,
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { AddTodoDto } from './dto/add-todo.dto.js';
 import { UpdateTodoDto } from './dto/update-todo.dto.js';
 import { TodoService } from './todo.service.js';
+import { SearchTodoDto } from './dto/search-todo.dto.js';
 
 @Controller({ path: 'todo', version: '1' })
 export class TodoController {
@@ -29,5 +33,14 @@ export class TodoController {
     @Body() dto: UpdateTodoDto,
   ) {
     return { id, ...dto };
+  }
+
+  @Delete(':id/soft')
+  softDelete(@Param('id', ParseIntPipe) id: number) {
+    return this.todoService.softDeleteTodo(id);
+  }
+  @Get()
+  getAll(@Query() filters: SearchTodoDto) {
+    return this.todoService.getAllTodos(filters);
   }
 }

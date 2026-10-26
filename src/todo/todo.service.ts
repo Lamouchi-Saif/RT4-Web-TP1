@@ -6,6 +6,8 @@ import { UpdateTodoDto } from './dto/update-todo.dto.js';
 import { TodoEntity } from './entities/todo.entity.js';
 import { TodoStatusEnum } from './enums/todo-status.enum.js';
 import { SearchTodoDto } from './dto/search-todo.dto.js';
+import { paginate } from '../common/utils/paginate.js';
+import type { PaginatedResult } from '../common/utils/paginate.js';
 
 @Injectable()
 export class TodoService {
@@ -99,7 +101,7 @@ export class TodoService {
     return stats;
   }
 
-  getAllTodos(filters: SearchTodoDto = {}): Promise<TodoEntity[]> {
+  getAllTodos(filters: SearchTodoDto = {}): Promise<PaginatedResult<TodoEntity>> {
     const query = this.todoRepository.createQueryBuilder('todo');
 
     if (filters.search) {
@@ -113,7 +115,7 @@ export class TodoService {
       query.andWhere('todo.status = :status', { status: filters.status });
     }
 
-    return query.getMany();
+    return paginate(query.orderBy('todo.id', 'ASC'), filters);
   }
 
   getTodoById(id: number): Promise<TodoEntity | null> {
