@@ -252,17 +252,17 @@ GET /v2/todo?search=nest&status=En cours
 
 ### 5. CRUD
 
-- [ ] `addTodo` en base de données (**garder les deux versions** du code)
-- [ ] `updateTodo` via l'id
-- [ ] `deleteTodo` via l'id
-- [ ] `softDeleteTodo` + méthode de restauration
+- [✅] `addTodo` en base de données (**garder les deux versions** du code)
+- [✅] `updateTodo` via l'id
+- [✅] `deleteTodo` via l'id
+- [✅] `softDeleteTodo` + méthode de restauration
 
 ### 6. Consultation
 
-- [ ] Endpoint de statistiques : nombre de todos pour chacun des 3 statuts en **une seule requête**
-- [ ] Endpoint de récupération de tous les todos
-- [ ] Endpoint de récupération par id (gérer le cas « todo inexistant »)
-- [ ] Recherche par chaîne (name/description) et par statut, critères optionnels
+- [✅] Endpoint de statistiques : nombre de todos pour chacun des 3 statuts en **une seule requête**
+- [✅] Endpoint de récupération de tous les todos
+- [✅] Endpoint de récupération par id (gérer le cas « todo inexistant »)
+- [✅] Recherche par chaîne (name/description) et par statut, critères optionnels
 - [ ] Pagination de la fonction `getAll` (fonction générique et réutilisable, via QueryBuilder)
 
 ---
