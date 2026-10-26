@@ -60,6 +60,24 @@ export class TodoService {
     }
   }
 
+  /**
+   * Restores a todo that was previously soft-deleted.
+   *
+   * TypeORM updates the deleted record by clearing its `deletedAt` value,
+   * making the todo visible to normal queries again. The operation does not
+   * create a new todo or modify its other fields. If no todo matches the
+   * supplied ID, an exception is thrown to indicate that it could not be restored.
+   *
+   * @param id The ID of the soft-deleted todo to restore.
+   * @throws {NotFoundException} When no todo exists with the supplied ID.
+   */
+  async restoreTodo(id: number): Promise<void> {
+    const result = await this.todoRepository.restore(id);
+    if (result.affected === 0) {
+      throw new NotFoundException('Todo not found');
+    }
+  }
+
   async getStats(): Promise<Record<TodoStatusEnum, number>> {
     const rows = await this.todoRepository
       .createQueryBuilder('todo')

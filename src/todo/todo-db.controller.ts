@@ -39,6 +39,11 @@ export class TodoDbController {
     return this.todoService.softDeleteTodo(id);
   }
 
+  @Patch('restore/:id')
+  restoreTodo(@Param('id', ParseIntPipe) id: number) {
+    return this.todoService.restoreTodo(id);
+  }
+
   @Get('stats')
   getStats() {
     return this.todoService.getStats();
