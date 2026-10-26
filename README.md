@@ -208,7 +208,7 @@ Statut par défaut à la création : **En attente**.
 | `GET`    | `/v2/todo/:id`         | Récupérer un todo par son id (404 si inexistant)              |
 | `PATCH`  | `/v2/todo/:id`         | Mettre à jour un todo                                         |
 | `DELETE` | `/v2/todo/:id`         | Supprimer définitivement un todo                              |
-| `DELETE` | `/v2/todo/soft/:id`    | Suppression soft d'un todo                                    |
+| `DELETE` | `/v2/todo/:id/soft`    | Suppression soft d'un todo                                    |
 | `PATCH`  | `/v2/todo/restore/:id` | Restaurer un todo supprimé (soft)                             |
 | `GET`    | `/v2/todo/stats`       | Nombre de todos pour chacun des 3 statuts (une seule requête) |
 
