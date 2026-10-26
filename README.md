@@ -4,6 +4,7 @@ API REST de gestion de **Todos** développée avec **NestJS**, **TypeORM** et **
 
 > **Auteur :** Groupe 8 – RT4 – Année universitaire 2026/2027
 > **Enseignant :** Aymen Sellaouti
+> **Membres :** - Lamouchi Seif - ElJenzri Yassine - Jmili Jed - Yahyaoui Baha Eddine - Khediri Oussama - Rahmouni Aziz - Amdouni Ghaith 
 
 ---
 
