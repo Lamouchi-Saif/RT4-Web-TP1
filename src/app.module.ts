@@ -7,25 +7,27 @@ import { TestModule } from './test/test.module.js';
 import { TodoModule } from './todo/todo.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CvModule } from './cv/cv.module.js';
+import { SkillModule } from './skill/skill.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-      TypeOrmModule.forRootAsync({
-        inject: [ConfigService],
-        useFactory: (config: ConfigService) => ({
-          type: 'mysql',
-          host: config.get('DB_HOST'),
-          port: Number(config.get('DB_PORT')),
-          username: config.get('DB_USER'),
-          password: config.get('DB_PASSWORD'),
-          database: config.get('DB_NAME'),
-          autoLoadEntities: true,
-          synchronize: true,
-        }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'mysql',
+        host: config.get('DB_HOST'),
+        port: Number(config.get('DB_PORT')),
+        username: config.get('DB_USER'),
+        password: config.get('DB_PASSWORD'),
+        database: config.get('DB_NAME'),
+        autoLoadEntities: true,
+        synchronize: true,
       }),
+    }),
     // Distributed tracing, auto-correlated logs, request/job metrics, error
     // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com,
     // then run `npx @nestjs/observe link` to write your key pair into .env.
@@ -37,6 +39,8 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     CommonModule,
     TestModule,
     TodoModule,
+    CvModule,
+    SkillModule,
   ],
   controllers: [AppController],
   providers: [AppService],
