@@ -25,7 +25,7 @@ addTodo(
   @Body() dto: AddTodoDto,
   @Req() req: AuthenticatedRequest,
 ) {
-  return this.todoService.addTodo(dto, req.userId);
+  return this.todoService.addTodo(dto);
 }
 
   @Patch(':id')
@@ -34,7 +34,7 @@ updateTodo(
   @Body() dto: UpdateTodoDto,
   @Req() req: AuthenticatedRequest,
 ) {
-  return this.todoService.updateTodo(id, dto, req.userId);
+  return this.todoService.updateTodo(id, dto);
 }
 
  @Delete(':id')
