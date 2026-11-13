@@ -14,6 +14,9 @@ export class TodoEntity extends TimestampEntity{
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: true })
+  userId: string;
+
   @Column({ length: 10 })
   name: string;
 

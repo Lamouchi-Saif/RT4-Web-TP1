@@ -9,30 +9,41 @@ import {
   Patch,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import { AddTodoDto } from './dto/add-todo.dto.js';
 import { SearchTodoDto } from './dto/search-todo.dto.js';
 import { UpdateTodoDto } from './dto/update-todo.dto.js';
 import { TodoService } from './todo.service.js';
-
+import type { AuthenticatedRequest } from './auth.middleware.js';
 @Controller({ path: 'todo', version: '2' })
 export class TodoDbController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
-  addTodo(@Body() dto: AddTodoDto) {
-    return this.todoService.addTodo(dto);
-  }
+addTodo(
+  @Body() dto: AddTodoDto,
+  @Req() req: AuthenticatedRequest,
+) {
+  return this.todoService.addTodo(dto, req.userId);
+}
 
   @Patch(':id')
-  updateTodo(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTodoDto) {
-    return this.todoService.updateTodo(id, dto);
-  }
+updateTodo(
+  @Param('id', ParseIntPipe) id: number,
+  @Body() dto: UpdateTodoDto,
+  @Req() req: AuthenticatedRequest,
+) {
+  return this.todoService.updateTodo(id, dto, req.userId);
+}
 
-  @Delete(':id')
-  deleteTodo(@Param('id', ParseIntPipe) id: number) {
-    return this.todoService.deleteTodo(id);
-  }
+ @Delete(':id')
+deleteTodo(
+  @Param('id', ParseIntPipe) id: number,
+  @Req() req: AuthenticatedRequest,
+) {
+  return this.todoService.deleteTodo(id, req.userId);
+}
 
   @Delete(':id/soft')
   softDeleteTodo(@Param('id', ParseIntPipe) id: number) {

@@ -264,7 +264,7 @@ GET /v2/todo?search=nest&status=En cours
 - [✅] Endpoint de récupération de tous les todos
 - [✅] Endpoint de récupération par id (gérer le cas « todo inexistant »)
 - [✅] Recherche par chaîne (name/description) et par statut, critères optionnels
-- [ ] Pagination de la fonction `getAll` (fonction générique et réutilisable, via QueryBuilder)
+- [✅] Pagination de la fonction `getAll` (fonction générique et réutilisable, via QueryBuilder)
 
 ---
 

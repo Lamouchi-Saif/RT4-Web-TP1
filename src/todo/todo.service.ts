@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AddTodoDto } from './dto/add-todo.dto.js';
@@ -40,16 +44,23 @@ export class TodoService {
       throw new NotFoundException('Todo not found');
     }
 
-    Object.assign(todo, dto);
-    return this.todoRepository.save(todo);
+  Object.assign(todo, dto);
+  return this.todoRepository.save(todo);
+}
+
+  async deleteTodo(id: number, userId: string): Promise<void> {
+  const todo = await this.todoRepository.findOne({ where: { id } });
+
+  if (!todo) {
+    throw new NotFoundException('Todo not found');
   }
 
-  async deleteTodo(id: number): Promise<void> {
-    const result = await this.todoRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException('Todo not found');
-    }
+  if (todo.userId !== userId) {
+    throw new ForbiddenException('You cannot delete this Todo');
   }
+
+  await this.todoRepository.delete(id);
+}
 
   async softDeleteTodo(id: number): Promise<void> {
     const result = await this.todoRepository.softDelete(id);
