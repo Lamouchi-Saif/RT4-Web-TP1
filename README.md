@@ -123,9 +123,9 @@ npm i --save uuid
 # TP2
 npm i --save jsonwebtoken
 npm i --save-dev @types/jsonwebtoken sql.js
-# TP2 – partie authentification (à venir)
-npm i --save @nestjs/passport passport @nestjs/jwt passport-jwt bcrypt
-npm i --save-dev @types/passport-jwt @types/bcrypt
+# TP2 – partie authentification
+npm i --save @nestjs/passport passport @nestjs/jwt passport-jwt bcryptjs
+npm i --save-dev @types/passport-jwt
 ```
 
 ---
@@ -142,9 +142,9 @@ DB_PORT=3306
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=nest_todo
-
 # Secret utilisé pour signer / vérifier les JWT
-JWT_SECRET=replace-with-a-local-secret
+JWT_SECRET=replace-with-a-long-random-secret
+JWT_EXPIRES_IN=1h
 ```
 
 Un fichier `.env.example` (sans valeurs sensibles) est fourni dans le dépôt.
@@ -200,6 +200,14 @@ src/
 │   ├── user.service.ts
 │   └── entities/user.entity.ts
 │
+├── auth/                           # TP2 – inscription, login et Passport JWT
+│   ├── auth.module.ts
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── dto/                        # register, login
+│   ├── guards/jwt-auth.guard.ts
+│   └── strategies/jwt.strategy.ts
+│
 ├── test/                           # Module de test de l'injection (TP1)
 │
 └── shared/
@@ -249,13 +257,13 @@ User 1 ───── * Cv * ───── * Skill
 | ------------- | ------------------------------------------------------------------- |
 | `CvEntity`    | `id`, `name`, `firstname`, `age`, `cin`, `job`, `path`, `userId` + timestamps |
 | `SkillEntity` | `id`, `designation` + timestamps                                    |
-| `UserEntity`  | `id`, `username` (unique), `email` (unique), `password` (`select: false`) |
+| `UserEntity`  | `id`, `username` (unique), `email` (unique), `password` (`select: false`), `role` |
 
 - `Cv` **ManyToOne** `User` (un User possède plusieurs CVs)
 - `Cv` **ManyToMany** `Skill` (table de jointure `cv_skills`)
 - Supprimer un CV ou un Skill ne supprime ni le User ni les autres entités liées.
 
-> Les champs `role` (User) et l'authentification complète seront ajoutés dans la branche `auth`.
+> L'authentification complète et le champ `role` sont implémentés dans la branche `auth`.
 
 ---
 
@@ -289,6 +297,20 @@ GET /v2/todo?search=nest&status=En cours&page=1&limit=10
 - `page` (≥ 1, défaut `1`) et `limit` (1 à 100, défaut `10`)
 
 Réponse paginée : `{ data, total, page, limit, totalPages }`.
+
+### Authentification (TP2)
+
+| Méthode | Route            | Description                                         |
+| ------- | ---------------- | --------------------------------------------------- |
+| `POST`  | `/auth/register` | Inscrire un utilisateur avec un mot de passe haché  |
+| `POST`  | `/auth/login`    | Se connecter et recevoir un JWT (`access_token`)    |
+| `GET`   | `/auth/profile`  | Vérifier un JWT Passport envoyé comme Bearer token  |
+
+Exemple d'en-tête pour une route protégée :
+
+```http
+Authorization: Bearer <access_token>
+```
 
 ### CVs (version neutre – sans préfixe `/vN`)
 
