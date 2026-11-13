@@ -31,11 +31,7 @@ export class TodoService {
 
   // Version 2: save the todo row in MySQL through TypeORM.
   addTodo(dto: AddTodoDto): Promise<TodoEntity> {
-    const todo = this.todoRepository.create({
-      ...dto,
-      status: TodoStatusEnum.waiting,
-    });
-    return this.todoRepository.save(todo);
+    return this.todoRepository.save(dto);
   }
 
   async updateTodo(id: number, dto: UpdateTodoDto): Promise<TodoEntity> {
