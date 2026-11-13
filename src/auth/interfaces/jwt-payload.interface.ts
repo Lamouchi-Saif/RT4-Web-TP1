@@ -1,13 +1,13 @@
-import type { UserRole } from '../../user/enums/user-role.enum.js';
+
 
 export interface JwtPayload {
   sub: number;
   username: string;
-  role: UserRole;
+  role: string;
 }
 
 export interface AuthenticatedUser {
   userId: number;
   username: string;
-  role: UserRole;
+  role: string;
 }

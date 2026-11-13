@@ -1,7 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import type { Relation } from 'typeorm';
 import { CvEntity } from '../../cv/entities/cv.entity.js';
-import { UserRole } from '../enums/user-role.enum.js';
 
 @Entity('user')
 export class UserEntity {
@@ -18,11 +17,11 @@ export class UserEntity {
   password: string;
 
   @Column({
-    type: 'enum',
-    enum: UserRole,
-    default: UserRole.USER,
+    type: 'varchar',
+    length: 50,
+    default: 'user',
   })
-  role: UserRole;
+  role: string;
 
   @OneToMany(() => CvEntity, (cv) => cv.user)
   cvs: Relation<CvEntity[]>;

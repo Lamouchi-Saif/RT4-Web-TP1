@@ -1,3 +1,4 @@
+
 import {
   ArrayUnique,
   IsArray,
@@ -9,9 +10,14 @@ import {
   Min,
   ValidateIf,
 } from 'class-validator';
-import { lengthMessage, requiredMessage } from '../../shared/error-messages.js';
+
+import {
+  lengthMessage,
+  requiredMessage,
+} from '../../shared/error-messages.js';
 
 export class CreateCvDto {
+
   @IsString()
   @IsNotEmpty({ message: requiredMessage })
   @MaxLength(100, { message: lengthMessage('max') })
@@ -41,11 +47,6 @@ export class CreateCvDto {
   @IsNotEmpty({ message: requiredMessage })
   @MaxLength(255, { message: lengthMessage('max') })
   path: string;
-
-  // Étape CRUD (slide 4) ; sera fourni par l'utilisateur connecté en slide 12.
-  @IsInt()
-  @Min(1)
-  userId: number;
 
   @ValidateIf((_object, value: unknown) => value !== undefined)
   @IsArray()
